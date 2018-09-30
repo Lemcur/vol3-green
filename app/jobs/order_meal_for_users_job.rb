@@ -14,7 +14,7 @@ class OrderMealForUsersJob < ApplicationJob
 
   def perform(catering_id)
     unless Catering.exists?(id: catering_id)
-      puts "Catering with id #{catering_id} does not exist! quiting job..."
+      puts "Catering with id #{catering_id} does not exist! quitting job..."
       return false
     end
     puts 'Started performing job!'
@@ -48,6 +48,5 @@ class OrderMealForUsersJob < ApplicationJob
 
   def users_without_order
     result = @catering.users.reject(&:has_ordered_food_today?)
-    result
   end
 end

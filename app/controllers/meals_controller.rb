@@ -20,8 +20,9 @@ class MealsController < ApplicationController
 
     @ingredients = @meal.ingredients.pluck(:name).join(", ")
     @order_count = DailyMeal.where(meal: @meal).map { |dm| dm.food_requests.count }.reduce(:+)
-    @todays_order_count = DailyMeal.where(meal: @meal, serving_day: Date.today).map { |dm| dm.food_requests.count }.reduce(:+)
-
+    @todays_order_count = DailyMeal.where(meal: @meal, serving_day: Date.today).map do |dm|
+      dm.food_requests.count 
+    end.reduce(:+)
   end
 
   def new

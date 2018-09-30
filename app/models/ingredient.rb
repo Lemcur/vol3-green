@@ -7,13 +7,9 @@ class Ingredient < ApplicationRecord
                           class_name: 'Meal' ,
                           foreign_key: 'ingredient_id',
                           join_table: :meals_ingredients
-
-
   validates :name,
     presence: true,
     uniqueness: true,
     allow_blank: false,
     format: { with: /\A[a-z A-Z]+\z/, message: 'only allows letters' }
-
-
 end

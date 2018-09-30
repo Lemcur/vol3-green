@@ -12,7 +12,7 @@ class DailyMealsController < ApplicationController
   end
 
   def create
-    @selected_meal_ids = params.require(:daily_meal).permit(meal: [])[:meal].reject { |e| e.empty? }
+    @selected_meal_ids = daily_meals_params[:meal].reject { |e| e.empty? }
 
     begin
       @selected_meal_ids.each do |sm_id|
@@ -29,5 +29,10 @@ class DailyMealsController < ApplicationController
     end
 
     redirect_to catering_daily_meals_path
+  end
+
+  private
+  def daily_meals_params
+    params.require(:daily_meal).permit(meal: [])
   end
 end

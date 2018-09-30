@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   def new_allergic_prefs
     @user = current_user
   end
+  
   def create_allergic_prefs
       if current_user.update(user_params)
         flash[:notice] = "You have created your preferences successfully!"

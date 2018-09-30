@@ -6,7 +6,6 @@ class Catering < ApplicationRecord
   has_many :meals
   has_many :daily_meals
   has_and_belongs_to_many :users,
-                          class_name: 'User' ,
                           foreign_key: 'catering_id',
                           join_table: :subscriptions
 
@@ -15,21 +14,19 @@ class Catering < ApplicationRecord
   end
 
   after_update do |catering|
-    queue_food_order_job catering.id
-
+    queue_food_order_job(catering.id)
   end
 
   def get_food_order_close_time
     time = self.food_order_close_time.split(':')
-    {hour: time[0].to_i, min: time[1].to_i}
+      {hour: time[0].to_i, min: time[1].to_i}
   end
 
   def queue_food_order_job (catering_id)
-    now = DateTime.now
     close_min = get_food_order_close_time[:min]
     close_hour = get_food_order_close_time[:hour]
 
-    if now.hour > close_hour and now.min > close_min
+    if DateTime.now.hour > close_hour and DateTime.now.min > close_min
       job_date = DateTime.now.tomorrow.change({hour: close_hour, min: close_min, sec: 0 })
     else
       job_date = DateTime.now.change({hour: close_hour, min: close_min, sec: 0 })
