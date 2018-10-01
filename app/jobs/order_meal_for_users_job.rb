@@ -5,9 +5,9 @@ class OrderMealForUsersJob < ApplicationJob
     puts "Job finished for #{job.catering.name} <##{job.catering.email}>.Autorequested orders: #{job.autorequested_orders}."
 
     if Catering.exists?(id: job.catering.id)
-      close_hour = job.catering.get_food_order_close_time[:hour]
-      close_minute = job.catering.get_food_order_close_time[:min]
-      job_date = DateTime.now.tomorrow.change({hour: close_hour, min: close_minute})
+      food_order_hour = job.catering.get_food_order_close_time[:hour]
+      food_order_minute = job.catering.get_food_order_close_time[:min]
+      job_date = DateTime.now.tomorrow.change({hour: food_order_hour, min: food_order_minute})
       OrderMealForUsersJob.set(wait_until: job_date).perform_later(job.catering.id)
     end
   end
