@@ -8,7 +8,9 @@ class Catering < ApplicationRecord
   has_and_belongs_to_many :users,
                           foreign_key: 'catering_id',
                           join_table: :subscriptions
-
+  validates_presence_of :name
+  validates_presence_of :city
+  
   after_create do |catering|
     queue_food_order_job(catering.id)
   end
