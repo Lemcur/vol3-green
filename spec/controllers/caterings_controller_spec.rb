@@ -7,7 +7,7 @@ RSpec.describe CateringsController do
 
   context 'show action' do
     before { sign_in user }
-    before { get :index }
+    before { get :show, params: { catering_id } }
     it 'should show catering' do
       expect(response).to have_http_status(:success)
     end
